@@ -1,0 +1,28 @@
+{
+  "name": "bower-datatable-e-codeigniter",
+  "description": "Tutorial ensinando a integrar o datatables com dados dinâmicos",
+  "main": "index.php",
+  "keywords": [
+    "datatables",
+    "database",
+    "codeigniter"
+  ],
+  "authors": [
+    "Jonathan Lamim"
+  ],
+  "license": "MIT",
+  "homepage": "www.universidadecodeigniter.com.br",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12",
+    "bootstrap": "^3.3.7"
+  }
+}
