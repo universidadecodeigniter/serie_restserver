@@ -5,6 +5,7 @@
 	<title>RestServer com CodeIgniter</title>
 	<link rel="stylesheet" href="<?=base_url('bower_components/bootstrap/dist/css/bootstrap.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('bower_components/datatables.net-bs/css/dataTables.bootstrap.css')?>">
+	<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
 </head>
 <body>
 	<div class="container">
@@ -76,6 +77,7 @@
 
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-danger pull-left hidden" data-dismiss="modal" id="btn-remover-usuario" >Remover</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 					<button type="button" class="btn btn-primary" id="btn-submit-form">Salvar</button>
 				</div>
@@ -86,6 +88,7 @@
 	<script src="<?=base_url('bower_components/jquery/dist/jquery.min.js')?>"></script>
 	<script src="<?=base_url('bower_components/bootstrap/dist/js/bootstrap.min.js')?>"></script>
 	<script src="<?=base_url('bower_components/datatables.net/js/jquery.dataTables.min.js')?>"></script>
+	<script src="<?=base_url('bower_components/datatables.net-select/js/dataTables.select.min.js')?>"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
 	<script src="<?=base_url('assets/js/actions.js')?>"></script>
