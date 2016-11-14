@@ -45,6 +45,21 @@ class Usuarios extends REST_Controller {
     {
         // recupera os dados informado no formulário
         $usuario = $this->post();
+
+        // verifica se a foto foi selecionada e faz o processamento
+        if (isset($_FILES['avatar'])) {
+            $upload = $this->UploadImage('avatar');
+
+            // se ocorreu algum erro no upload, retorna a mensagem de erro
+            // em caso de sucesso, armazena o path na variável $usuario
+            if ($upload['error']) {
+                $response['message'] = $upload['error'];
+                $this->response($response, REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+                $usuario['avatar'] = $upload['upload_data']['file_name'];
+            }
+        }
+
         // processa o insert no banco de dados
         $insert = $this->UsuariosMDL->Insert($usuario);
         // define a mensagem do processamento
@@ -67,6 +82,7 @@ class Usuarios extends REST_Controller {
         // recupera os dados informado no formulário
         $usuario = $this->put();
         $usuario_id = $this->uri->segment(3);
+
         // processa o update no banco de dados
         $update = $this->UsuariosMDL->Update('id',$usuario_id, $usuario);
         // define a mensagem do processamento
@@ -106,5 +122,51 @@ class Usuarios extends REST_Controller {
         } else {
             $this->response($response, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400)
         }
+    }
+
+    /**
+     * Executa o upload da imagem
+     * @param string $input_name nome do campo "file" no formulário
+     * @return array
+     */
+    private function UploadImage($input_name)
+    {
+        // Carrega a biblioteca de upload
+        $this->load->library('upload');
+
+        // Define o path do diretório onde a imagem será armazenada
+        $path = './uploads/';
+        // Verifica se o o path é um diretórios
+        // caso não seja, então cria dando permissão de escrita
+        if (!is_dir($path)) {
+            mkdir($path, 0777, $recursive = true);
+        }
+
+        // Configurações para o upload da imagem
+        // Diretório para gravar a imagem
+        $configUpload['upload_path']   = $path;
+        // Tipos de imagem permitidos
+        $configUpload['allowed_types'] = 'jpg|jpeg|png';
+        // Usar nome de arquivo aleatório, ignorando o nome original do arquivo
+        $configUpload['encrypt_name']  = TRUE;
+
+        // Aplica as configurações e inicializa a biblioteca
+        $this->upload->initialize($configUpload);
+
+        // Verifica se o upload foi efetuado ou não
+        // Em caso de erro retorna a mensagem de erro
+        // Em caso de sucesso retorna a mensagem de sucesso
+        if ( !$this->upload->do_upload($input_name))
+        {
+            // Recupera as mensagens de erro e envia o usuário para a home
+            $data = array('error' => $this->upload->display_errors());
+        }
+        else
+        {
+            // Recupera os dados da imagem enviada
+            $data = array('error' => null, 'upload_data' => $this->upload->data());
+        }
+
+        return $data;
     }
 }

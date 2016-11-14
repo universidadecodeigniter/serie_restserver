@@ -45,7 +45,7 @@
 					<h4 class="modal-title" id="myModalLabel">Novo Usuário</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" method="POST" action="<?=base_url('api/usuarios')?>" id="formUsuario">
+					<form class="form-horizontal" method="POST" action="<?=base_url('api/usuarios')?>" id="formUsuario" enctype="multipart/form-data">
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="nome">Nome</label>
 							<div class="col-md-9">
@@ -71,6 +71,13 @@
 							<label class="col-md-3 control-label" for="biografia">Biografia</label>
 							<div class="col-md-9">
 								<textarea class="form-control" id="biografia" name="biografia" placeholder="Fale um pouco sobre você"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group" id="foto-input">
+							<label class="col-md-3 control-label" for="foto">Foto</label>
+							<div class="col-md-9">
+								<input id="foto" name="avatar" placeholder="Foto de perfil" type="file">
 							</div>
 						</div>
 					</form>

@@ -33,18 +33,27 @@ $(document).ready(function() {
         return false;
     });
 
-    /* action para o botão que dispara a requisição para a API, enviando os
-    dados do formulário */
+    /* action para executar o submit do formulário */
     $('#btn-submit-form').click(function(){
-        var url_action = $('#formUsuario').attr('action');
-        var form_data = $('#formUsuario').serialize();
-        var form_method = $('#formUsuario').attr('method');
+        $('#formUsuario').submit();
+        return false;
+    });
+
+    /* action para executar o submit do formuário através de uma requisição ajax */
+    $('#formUsuario').on('submit',(function(e) {
+        e.preventDefault();
+        var url_action = $(this).attr('action');
+        var form_data = new FormData(this);
+        var form_method = $(this).attr('method');
 
         $.ajax({
+            type:form_method,
             url: url_action,
-            data: form_data,
+            data:form_data,
             dataType: 'json',
-            method: form_method,
+            cache:false,
+            contentType: false,
+            processData: false,
             beforeSend: function(){
                 $('#btn-submit-form').prop('disabled',true);
             },
@@ -62,8 +71,7 @@ $(document).ready(function() {
                 return false;
             }
         });
-        return false;
-    });
+    }));
 
     /* Faz a remoção do usuário selecionado */
     $('#btn-remover-usuario').click(function(){
@@ -91,6 +99,12 @@ $(document).ready(function() {
         }
         return false;
     });
+
+    /* Executa o reset do formulário quando a modal é fechada */
+    $('#formUsuarioModal').on('hidden.bs.modal', function () {
+        var form_method = $('#formUsuario').attr('method');
+        ResetForm(form_method);
+    })
 
 });
 
@@ -122,14 +136,15 @@ function ShowModalEdit(usuario_id){
         dataType: 'json',
         method: "GET",
         success: function(response){
-            console.log(response.data[0].id);
             $('#formUsuario').attr('method','PUT');
             $('#formUsuario').attr('action',api_url);
+            $('#formUsuario').attr('enctype','');
             $('#formUsuario #nome').val(response.data[0].nome);
             $('#formUsuario #email').val(response.data[0].email);
             $('#formUsuario #email').attr('readonly', true);
             $('#formUsuario #senha').attr('required', false);
             $('#formUsuario #biografia').val(response.data[0].biografia);
+            $('#formUsuario #foto-input').hide();
             $('#formUsuarioModal #myModalLabel').text('Editar Usuário');
             $('#btn-remover-usuario').removeClass('hidden');
             $('#btn-remover-usuario').data("id_usuario",response.data[0].id);
@@ -149,8 +164,10 @@ function ResetForm(form_method){
         var api_url = location.protocol + "//" + location.host + "/unici_restserver/api/usuarios";
         $('#formUsuario').attr('method','POST');
         $('#formUsuario').attr('action',api_url);
+        $('#formUsuario').attr('enctype','multipart/form-data');
         $('#formUsuario #email').attr('readonly', false);
         $('#formUsuario #senha').attr('required', true);
+        $('#formUsuario #foto-input').show();
         $('#formUsuario')[0].reset();
         $('#formUsuarioModal #myModalLabel').text('Novo Usuário');
         $('#btn-remover-usuario').addClass('hidden');
