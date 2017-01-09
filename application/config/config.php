@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/unici_restserver';
+$config['base_url'] = 'http://localexemplos.universidadecodeigniter.com.br/unici_restserver/';
 
 /*
 |--------------------------------------------------------------------------

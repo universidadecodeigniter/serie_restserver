@@ -3,11 +3,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 
+use Restserver\Libraries\REST_Controller;
+
 class Usuarios extends REST_Controller {
     function __construct()
     {
         parent::__construct();
         $this->load->model('Usuarios_model','UsuariosMDL');
+
+        // Configuração para os limites de requisições (por hora)
+        $this->methods['index_get']['limit'] = 10;
     }
 
     /*
